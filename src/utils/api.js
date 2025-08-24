@@ -1,17 +1,19 @@
-const API_BASE = import.meta.env.VITE_API_URL || "https://open-devs-api.lndo.site";
+const API_BASE = import.meta.env.VITE_API_URL;
 const TOKEN_KEY = "jwt.token";
 const REFRESH_KEY = "jwt.refresh";
 
 /**
- * Appel API avec JWT (stockage en localStorage).
- * Les routes Laravel attendues :
+ * Laravel routes :
  * - POST   /api/v1/auth/login
  * - POST   /api/v1/auth/register
  * - GET    /api/v1/auth/me
  * - POST   /api/v1/auth/refresh
  * - POST   /api/v1/auth/logout
  */
-export async function apiFetch(path, { method = "GET", body, auth = true } = {}) {
+export async function apiFetch(
+  path,
+  { method = "GET", body, auth = true } = {}
+) {
   const token = localStorage.getItem(TOKEN_KEY);
   const headers = { "Content-Type": "application/json" };
   if (auth && token) headers["Authorization"] = `Bearer ${token}`;
@@ -62,7 +64,8 @@ async function tryRefresh() {
     const data = await res.json();
     if (data.data?.token) {
       localStorage.setItem(TOKEN_KEY, data.token);
-      if (data.data.refresh_token) localStorage.setItem(REFRESH_KEY, data.data.refresh_token);
+      if (data.data.refresh_token)
+        localStorage.setItem(REFRESH_KEY, data.data.refresh_token);
       return true;
     }
     return false;
@@ -73,17 +76,27 @@ async function tryRefresh() {
 
 // Helpers pour les routes d’auth
 export async function login(email, password) {
-  const data = await apiFetch("/api/v1/auth/login", { method: "POST", body: { email, password }, auth: false });
+  const data = await apiFetch("/api/v1/auth/login", {
+    method: "POST",
+    body: { email, password },
+    auth: false,
+  });
   //console.log(data.data.token)
   localStorage.setItem(TOKEN_KEY, data.data.token);
-  if (data.data.refresh_token) localStorage.setItem(REFRESH_KEY, data.data.refresh_token);
+  if (data.data.refresh_token)
+    localStorage.setItem(REFRESH_KEY, data.data.refresh_token);
   return data;
 }
 
 export async function register(payload) {
-  const data = await apiFetch("/api/v1/auth/register", { method: "POST", body: payload, auth: false });
+  const data = await apiFetch("/api/v1/auth/register", {
+    method: "POST",
+    body: payload,
+    auth: false,
+  });
   localStorage.setItem(TOKEN_KEY, data.data.token);
-  if (data.data.refresh_token) localStorage.setItem(REFRESH_KEY, data.data.refresh_token);
+  if (data.data.refresh_token)
+    localStorage.setItem(REFRESH_KEY, data.data.refresh_token);
   return data;
 }
 
@@ -99,4 +112,9 @@ export async function logout() {
   }
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(REFRESH_KEY);
+}
+
+export async function getProfiles() {
+  const data = await apiFetch("/api/v1/users/all", { method: "GET" });
+  return data;
 }
