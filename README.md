@@ -19,5 +19,3 @@ Tech stack : **Laravel API + Sanctum** | **React + Tailwind** | **SQLite**
 npm i
 npm run dev
 ```
-
-### Starter kit Laravel API => https://github.com/hdeawy/api-starter-kit
