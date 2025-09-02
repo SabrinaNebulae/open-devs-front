@@ -11,7 +11,7 @@ export default function LoginPage() {
           </div>
           <div className="relative flex flex-col items-center justify-center py-16 bg-gradient-one">
             <img
-              class="absolute top-0 left-0 h-full w-full"
+              className="absolute top-0 left-0 w-full h-full"
               src="img/login-banner-bg.png"
               alt=""
             />
