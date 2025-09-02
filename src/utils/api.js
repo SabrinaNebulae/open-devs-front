@@ -115,6 +115,11 @@ export async function logout() {
 }
 
 export async function getProfiles() {
-  const data = await apiFetch("/api/v1/users/all", { method: "GET" });
+  const data = await apiFetch("/api/v1/profiles", { method: "GET" });
+  return data;
+}
+
+export async function showProfile(id) {
+  const data = await apiFetch(`/api/v1/profile/${id}`, { method: "GET" });
   return data;
 }

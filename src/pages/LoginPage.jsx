@@ -1,44 +1,24 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
-import AppShell from "../components/AppShell.jsx";
-import Card from "../components/Card.jsx";
-import TextInput from "../components/TextInput.jsx";
-import SubmitButton from "../components/SubmitButton.jsx";
+import AppShell from "../components/organisms/AppShell.jsx";
+import SignIn from "../components/organisms/forms/SignIn.jsx";
 
 export default function LoginPage() {
-  const { login } = useAuth();
-  const nav = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    try {
-      await login(email, password);
-      nav("/dashboard");
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <AppShell>
-      <Card title="Connexion">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <TextInput label="Email" type="email" value={email} onChange={setEmail} />
-          <TextInput label="Mot de passe" type="password" value={password} onChange={setPassword} />
-          {error && <p className="text-sm text-red-400">{error}</p>}
-          <SubmitButton loading={loading}>Se connecter</SubmitButton>
-        </form>
-        <p className="text-gray-400 text-sm mt-4">Pas encore inscrit ? <Link className="underline" to="/register">Créer un compte</Link></p>
-      </Card>
+      <section>
+        <div className="grid h-screen grid-cols-2">
+          <div className="mt-20">
+            <SignIn />
+          </div>
+          <div className="relative flex flex-col items-center justify-center py-16 bg-gradient-one">
+            <img
+              class="absolute top-0 left-0 h-full w-full"
+              src="img/login-banner-bg.png"
+              alt=""
+            />
+            Slider
+          </div>
+        </div>
+      </section>
     </AppShell>
   );
 }
