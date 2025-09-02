@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import AppShell from "../components/AppShell.jsx";
-import { useAuth } from "../context/AuthContext.jsx";
+import AppShell from "../components/organisms/AppShell.jsx";
 import { getProfiles } from "../utils/api.js";
 import Card from "../components/Card.jsx";
 
 export default function Dashboard() {
-  const { user } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
